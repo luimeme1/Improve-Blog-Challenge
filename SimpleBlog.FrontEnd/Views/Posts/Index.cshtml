@@ -1,26 +1,50 @@
 @model SimpleBlog.FrontEnd.ViewModels.PostsViewModel
 @{
     ViewData["Title"] = "Our Simple Blog Posts";
-    var bgRand = new Random(0);
 }
+<ul class="breadcrumb">
+    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <li style="color:green">Posts</li>
+</ul>
 
-<h1>Our Posts</h1>
-@if(Model.Posts != null && Model.Posts.Count() > 0) 
+<h1>Our @Model.Posts.Count() Posts</h1>
+@if (Model.Posts != null && Model.Posts.Count() > 0)
 {
-    foreach(var post in Model.Posts) 
+    var nbPostByPage = 5;
+    var nbPages = Model.Posts.Count() / nbPostByPage;
+
+    if (nbPages > 0)
     {
-        <div class="row m1emb">
-            <a href="@Url.Action("Details", "Posts", new { id = post.Id })">
-                <div class="col-md-4">
-                    <img src="@post.Image" alt="@post.Title" class="img-responsive" />
-                </div>
-                <div class="col-md-8">
-                    <h3>@post.Title</h3>
-                </div>
-            </a>
+        <div class="pagination" >
+            <li><a href="#">&lt;&lt;</a></li>
+            <li><a class="active" style="border:none" href="#page_1">1</a></li>
+            @for (var i = 2; i < nbPages; i++)
+            {
+                <li><a href="#page_@i">@i</a></li>
+            }
+            <li><a href="#">&gt;&gt;</a></li>
         </div>
     }
-} else {
+
+    foreach (var post in Model.Posts)
+    {
+        <div id="@post.Slug">
+            <div class="row m1emb">
+                <a href="@Url.Action("Details", "Posts", new { id = post.Slug })">
+                    <div class="col-md-4">
+                        <img src="@post.Image" alt="@post.Title" class="img-responsive" />
+                    </div>
+                    <div class="col-md-8">
+                        <h3>@post.Title</h3>
+                        <h5><i>@post.NbComments Comments</i></h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+}
+else
+{
     <div class="row">
         <div class="col-md-12">
             <p>There's nothing to see here.. :|</p>

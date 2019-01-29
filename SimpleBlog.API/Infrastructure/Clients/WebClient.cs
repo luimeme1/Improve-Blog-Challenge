@@ -29,21 +29,21 @@ namespace SimpleBlog.API.Infrastructure
 
         public async Task<string> GetData(string suffix = "") 
         {
-            var address = "https://jsonplaceholder.typicode.com/" + GetPathFromEntityType() + suffix;
+            var address = "https://jsonplaceholder.typicode.com/" + GetPathFromEntityType(suffix);
             
             return await _httpClient.GetStringAsync(address);
         }
 
-        private string GetPathFromEntityType()
+        private string GetPathFromEntityType(string suffix)
         {
             switch(EntityType)
             {
                 default:
                 case EnumEntityType.posts:
-                    return "posts";
+                    return $"posts{(string.IsNullOrEmpty(suffix)?"":suffix)}";
 
                 case EnumEntityType.comments:
-                    return "comments?postId=";
+                    return $"comments{(string.IsNullOrEmpty(suffix) ? "" : "?postId=" + suffix)}";
             }
         }
 

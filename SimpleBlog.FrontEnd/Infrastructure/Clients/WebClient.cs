@@ -29,21 +29,22 @@ namespace SimpleBlog.FrontEnd.Infrastructure
 
         public async Task<string> GetData(string suffix = "") 
         {
-            var address = "https://localhost:5001/" + GetPathFromEntityType() + suffix;
-            
+            //var address = "https://localhost:5001/" + GetPathFromEntityType() + suffix;
+            var address = "https://localhost:44373/" + GetPathFromEntityType(suffix);
+
             return await _httpClient.GetStringAsync(address);
         }
 
-        private string GetPathFromEntityType()
+        private string GetPathFromEntityType(string suffix)
         {
             switch(EntityType)
             {
                 default:
                 case EnumEntityType.posts:
-                    return "api/posts";
+                    return "api/posts" + suffix;
 
                 case EnumEntityType.comments:
-                    return "api/comments?postId=";
+                    return "api/comments" + (string.IsNullOrEmpty(suffix) ? "" : "?postId=" + suffix);
             }
         }
 

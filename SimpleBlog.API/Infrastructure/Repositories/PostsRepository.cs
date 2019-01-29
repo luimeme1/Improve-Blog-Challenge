@@ -18,6 +18,7 @@ namespace SimpleBlog.API.Infrastructure
         public async Task<Post> Get<Post>(int id)
         {
             var json = await _client.GetData($"/{id}");
+            
             return JsonConvert.DeserializeObject<Post>(json);
         }
 

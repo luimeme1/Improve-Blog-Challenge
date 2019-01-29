@@ -19,8 +19,15 @@ namespace SimpleBlog.API.Controllers
             _repo = repo;
         }
 
-        // api/comments/1
+        // api/comments
         [HttpGet]
+        public async Task<ActionResult<string>> Get()
+        {
+            return JsonConvert.SerializeObject(await _repo.GetAll<Comment>());
+        }
+
+        // api/comments/1
+        [HttpGet("{id}")]
         public async Task<ActionResult<string>> Get(int postId) {
             return JsonConvert.SerializeObject(await _repo.GetAll<Comment>(postId));
         }

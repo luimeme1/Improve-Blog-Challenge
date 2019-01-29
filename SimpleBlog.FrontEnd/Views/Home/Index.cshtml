@@ -1,8 +1,11 @@
 ﻿@using SimpleBlog.FrontEnd.Models
 @{
     ViewData["Title"] = "SimpleBlog Home Page";
-    var bgRand = new Random(0);
 }
+
+<ul class="breadcrumb">
+    <li style="color:green">Home</li>
+</ul>
 
 <h1>Featured Posts</h1>
 <div id="postsCarousel" class="carousel slide mb-1" data-ride="carousel" data-interval="6000">
@@ -18,8 +21,8 @@
                 bool first = true;
                 foreach(var post in (List<Post>)ViewData["Model.Featured"]) {
                     <div class="item @(first ? "active" : "")">
-                        <a class="btn btn-default" href="@Url.Action("Index", "Posts", new { id = post.Id })">
-                            <img src="https://via.placeholder.com/1920x600/@bgRand.Next(100000, 1000000)/ffffff?text=@post.Title" alt="@post.Title" class="img-responsive" />
+                        <a class="btn btn-default" href="@Url.Action("Index", "Posts", new { id = post.Slug })#@post.Slug">
+                            <img src="https://via.placeholder.com/1920x600/@post.Colour/ffffff?text=@post.Title" alt="@post.Title" class="img-responsive" />
                         </a>            
                     </div>
                     first = false;
@@ -44,8 +47,8 @@
         @foreach(var post in (List<Post>)ViewData["Model.Boxes"])
         {
             <div class="col-md-4">
-                <a class="btn btn-default" href="@Url.Action("Index", "Posts", new { id = post.Id })">
-                    <img src="https://via.placeholder.com/600x600/@bgRand.Next(100000, 1000000)/ffffff?text=@post.Title" alt="@post.Title" class="img-responsive" />
+                <a class="btn btn-default" href="@Url.Action("Index", "Posts", new { id = post.Slug })#@post.Slug">
+                    <img src="https://via.placeholder.com/600x600/@post.Colour/ffffff?text=@post.Title" alt="@post.Title" class="img-responsive" />
                 </a>
             </div>
         }
